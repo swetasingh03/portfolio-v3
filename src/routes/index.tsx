@@ -4,7 +4,7 @@ import { z } from "zod";
 import portrait from "@/assets/sweta-hero-light.png";
 import workspace from "@/assets/developer-workspace.jpg";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Github, Linkedin } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, Github, Linkedin } from "lucide-react";
 
 const TITLE = "Sweta Singh — Full Stack Developer";
 const DESC =
@@ -199,6 +199,7 @@ const schema = z.object({
 function Contact() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [error, setError] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -220,7 +221,14 @@ function Contact() {
         }),
       });
       const data = await res.json().catch(() => ({}));
+      if (data.message && typeof data.message === "string" && data.message.toLowerCase().includes("activation")) {
+        setSuccessMsg("Thanks! We've sent an activation link to the recipient inbox. Once clicked, direct delivery is active.");
+        setStatus("sent");
+        form.reset();
+        return;
+      }
       if (!res.ok || data.success === "false") throw new Error();
+      setSuccessMsg("Thanks! Your message was sent successfully — check your inbox for a confirmation.");
       setStatus("sent"); form.reset();
     } catch {
       setStatus("error");
@@ -247,7 +255,12 @@ function Contact() {
         <input name="email" type="email" placeholder="Your email" className={field} maxLength={255} />
         <textarea name="message" rows={5} placeholder="Tell me about your project" className={field} maxLength={2000} />
         {error && <p className="text-sm text-destructive">{error}</p>}
-        {status === "sent" && <p className="text-sm font-semibold text-primary">Thanks! Your message was sent — check your inbox for a confirmation.</p>}
+        {status === "sent" && (
+          <div className="flex items-center gap-3 rounded-xl border border-green-500/40 bg-green-500/15 p-4 text-green-700 dark:border-green-500/30 dark:bg-green-950/40 dark:text-green-300">
+            <CheckCircle2 className="h-5 w-5 shrink-0 text-green-600 dark:text-green-400" />
+            <p className="text-sm font-semibold">{successMsg}</p>
+          </div>
+        )}
         {status === "error" && <p className="text-sm text-destructive">Something went wrong. Please email me directly.</p>}
         <button disabled={status === "sending"} className="w-full rounded-full bg-ink py-3 font-semibold text-ink-foreground transition-colors hover:bg-primary disabled:opacity-60">
           {status === "sending" ? "Sending…" : "Send message"}
