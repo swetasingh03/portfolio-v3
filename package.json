@@ -94,5 +94,9 @@
     "typescript-eslint": "^8.56.1",
     "vite": "8.1.5",
     "vitest": "^4.1.10"
+  },
+  "optionalDependencies": {
+    "@oxc-parser/binding-linux-x64-gnu": "0.120.0",
+    "@rolldown/binding-linux-x64-gnu": "1.2.1"
   }
 }
