@@ -26,7 +26,7 @@ export const Route = createFileRoute("/")({
 
 const EMAIL = "swetasingh03052000@gmail.com";
 const socials = [
-  { label: "LinkedIn", url: "https://linkedin.com/in/sweta-singh", Icon: Linkedin },
+  { label: "LinkedIn", url: "https://www.linkedin.com/in/sweta-singh-0b91781bb", Icon: Linkedin },
   { label: "GitHub", url: "https://github.com/swetasingh03", Icon: Github },
 ];
 
