@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "(test -x node_modules/.bin/vite || npm ci) && npm run build"
   publish = "dist"
 
 [build.environment]
